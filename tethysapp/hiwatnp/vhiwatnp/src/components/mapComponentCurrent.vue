@@ -361,9 +361,9 @@ export default {
           zIndex: obj1.zIndex,
           baseLayer: false,
           displayInLayerSwitcher: false,
-          legendPath: 'http://tethys.icimod.org:8080/geoserver/HIWAT_Extreme/wms?service=WMS&version=1.1.0&request=GetLegendGraphic&layer=HIWAT_Extreme%3AgapaNapa&FORMAT=image/png&style=' + obj1.styles,
+          legendPath: 'http://threddsdataserver.icimod.org/geoserver/HIWAT_Extreme/wms?service=WMS&version=1.1.0&request=GetLegendGraphic&layer=HIWAT_Extreme%3AgapaNapa&FORMAT=image/png&style=' + obj1.styles,
           source: new ImageWMS({
-            url: 'http://tethys.icimod.org:8080/geoserver/HIWAT_Extreme/wms',
+            url: 'http://threddsdataserver.icimod.org/geoserver/HIWAT_Extreme/wms',
             params: {
               // 'LAYERS': 'HIWAT_Extreme:distBangladesh',
               'LAYERS': 'HIWAT_Extreme:gapaNapa',
