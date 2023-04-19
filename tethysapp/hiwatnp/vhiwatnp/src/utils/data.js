@@ -318,14 +318,17 @@ export var legendImage = {
 };
 
 
-export var HIWAT_Extreme_Layer_List = [
+
+let HIWAT_Extreme_Layer_List_array = [
     {
         id: 'gapaNapa_1hrppt',
         visible: false,
         title: 'Total accumulated Rainfall (mm)',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection",
-        styles: 'HIWAT_Extreme:gapaNapa_1hrppt'
+        styles: 'HIWAT_Extreme:gapaNapa_1hrppt_day1',
+        group: true,
+        day:1
     },
     {
         id: 'gapaNapa_labels',
@@ -333,7 +336,8 @@ export var HIWAT_Extreme_Layer_List = [
         title: 'Municipality Labels',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection1",
-        styles: 'HIWAT_Extreme:gapaNapa_labels'
+        styles: 'HIWAT_Extreme:gapaNapa_labels',
+
     },
     {
         id: 'gapaNapa_lightning',
@@ -341,7 +345,9 @@ export var HIWAT_Extreme_Layer_List = [
         title: 'Maximum Prob. of Lightning (%)',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection",
-        styles: 'HIWAT_Extreme:gapaNapa_lightning'
+        styles: 'HIWAT_Extreme:gapaNapa_lightning_day1',
+        group: true
+
     },
     {
         id: 'gapaNapa_mHail',
@@ -349,7 +355,9 @@ export var HIWAT_Extreme_Layer_List = [
         title: 'Maximum Prob. of Hail Threat (%)',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection",
-        styles: 'HIWAT_Extreme:gapaNapa_mHail'
+        styles: 'HIWAT_Extreme:gapaNapa_mHail_day1',
+        group: true
+
     },
     {
         id: 'gapaNapa_suHail',
@@ -357,7 +365,8 @@ export var HIWAT_Extreme_Layer_List = [
         title: 'Maximum Prob. of Supercell Threat (%)',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection",
-        styles: 'HIWAT_Extreme:gapaNapa_suHail'
+        styles: 'HIWAT_Extreme:gapaNapa_suHail_day1',
+        group: true
     },
     {
         id: 'gapaNapa_transparent',
@@ -365,6 +374,17 @@ export var HIWAT_Extreme_Layer_List = [
         zIndex: 100, layerCollectionDivClass: ".layerCollection1",
         styles: 'HIWAT_Extreme:gapaNapa_transparent'
     },];
+
+
+let HIWATExtremeGRList = [];
+HIWAT_Extreme_Layer_List_array.forEach(function (obj) {
+    if (obj.group) HIWATExtremeGRList.push(obj.id)
+});
+HIWAT_Extreme_Layer_List_array.forEach(function (obj) {
+    obj.GroupLayersId = HIWATExtremeGRList;
+})
+
+export var HIWAT_Extreme_Layer_List = HIWAT_Extreme_Layer_List_array;
 
 export function isInterestedLayer(toCheck) {
     let lenLayer = HIWAT_Extreme_Layer_List.filter(function (x) {
@@ -377,28 +397,43 @@ export function isInterestedLayer(toCheck) {
     }
 }
 
-
-export var HIWAT_Latest_54_hour_data = [
-    {id: 'enspmm-prec1h', visible: true, title: '1-hour accumulated Rainfall (mm)', layerName: 'enspmm-prec1h'},
+var HIWAT_Latest_54_hour_data_array = [
+    {
+        id: 'enspmm-prec1h',
+        visible: true,
+        title: '1-hour accumulated Rainfall (mm)',
+        layerName: 'enspmm-prec1h',
+    },
     {
         id: 'ensprob-lfa-thresh0p07',
         visible: false,
         title: 'Prob. of Lightning (%)',
-        layerName: 'ensprob-lfa-thresh0p07'
+        layerName: 'ensprob-lfa-thresh0p07',
     },
     {
         id: 'ensprob-tcolg-thresh30',
         visible: false,
         title: 'Prob. of Hail Threat (%)',
-        layerName: 'ensprob-tcolg-thresh30'
+        layerName: 'ensprob-tcolg-thresh30',
     },
     {
         id: 'ensprob-uphlcy25-thresh100',
         visible: false,
         title: 'Prob. of Supercell Threat (%)',
-        layerName: 'ensprob-uphlcy25-thresh100'
-    },];
+        layerName: 'ensprob-uphlcy25-thresh100',
+    }];
 
+let HIWAT54LayerId = [];
+HIWAT_Latest_54_hour_data_array.forEach(function (obj) {
+    obj.group = true;
+    HIWAT54LayerId.push(obj.id);
+})
+
+HIWAT_Latest_54_hour_data_array.forEach(function (obj) {
+    obj.GroupLayersId = HIWAT54LayerId;
+});
+
+export var HIWAT_Latest_54_hour_data = HIWAT_Latest_54_hour_data_array
 
 export function GetPercentageSLD(LayerVariable) {
     let sld = `<?xml version="1.0" encoding="ISO-8859-1"?>

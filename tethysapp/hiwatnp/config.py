@@ -15,6 +15,7 @@ THREDDS_catalog = 'http://tethys.icimod.org:8080/thredds/catalog/HIWAT/'
 # THREDDS_wms = 'http://tethys.icimod.org:7000/thredds/wms/'
 # THREDDS_wms = 'http://110.34.30.197:8080/thredds/wms/'
 THREDDS_wms = 'http://tethys.icimod.org:8080/thredds/wms/'
+# THREDDS_wms = 'http://threddsdataserver.icimod.org/thredds/wms/'
 
 # HIWAT_storage = '/home/tethys/hiwat_storage/'
 # HIWAT_storage = '/home/kshakya/zData/hiwat/'

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-light template-nabar full-height">
-    <a class="navbar-brand" href="">High Impact Extreme Weather Tool - Nepal</a>
+    <a class="navbar-brand" href="">High-Impact Weather Assessment Toolkit - Nepal</a>
     <div class="nav-logo-image">
 <!--      <img class="logo-image-style" src="@/assets/logo-icimod.png" alt="">-->
     </div>

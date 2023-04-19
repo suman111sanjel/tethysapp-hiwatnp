@@ -72,13 +72,12 @@ module.exports = {
         //     splitChunks: process.env.NODE_ENV === "development" ? false : true //or just process.env.NODE_ENV === "production"
         // }
     },
-
     pages: {
         'apps/hiwatnp': {
             entry: 'src/hiwatnp.js',
             template: 'public/index.html',
             filename: process.env.NODE_ENV === "production" ? '../../templates/hiwatnp/HIWATExtreme.html' : 'apps/hiwatnp/current.html',
-            title: 'HIWAT Extremel - Nepal',
+            title: 'High-Impact Weather Assessment Toolkit - Nepal',
             chunks: ['chunk-vendors', 'chunk-common', 'apps/hiwatnp']
         },
     }

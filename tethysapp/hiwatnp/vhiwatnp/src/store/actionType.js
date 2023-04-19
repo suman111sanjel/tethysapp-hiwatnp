@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === "production") {
     BaseUrl = 'http://tethys.icimod.org';
 } else {
     BaseUrl = "http://localhost:8000";
+    // BaseUrl = "http://192.168.12.34:8000";
 }
 
 export let Action = {

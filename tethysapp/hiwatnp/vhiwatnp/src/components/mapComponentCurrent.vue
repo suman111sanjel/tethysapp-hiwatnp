@@ -75,7 +75,7 @@ import TileLayer from "ol/layer/Tile";
 import ImageWMS from 'ol/source/ImageWMS';
 import {Image as ImageLayer} from 'ol/layer';
 import View from "ol/View";
-import {mapActions, mapMutations} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import {HIWAT_Extreme_Layer_List, HIWAT_Latest_54_hour_data, GetPercentageSLD, isInterestedLayer} from "../utils/data"
 import LayerSwitcher from 'ol-plus/ui/LayerSwitcher';
 import TimeDimensionTile from "ol-plus/layer/TimeDimensionTile";
@@ -150,6 +150,8 @@ export default {
           cardBoxCSS: true
         }
       },
+      LayerListHourlyPrediction: [],
+      LayerListPredictionAccumulated: [],
       rainySVG,
       hailSVG,
       flashSVG,
@@ -373,12 +375,39 @@ export default {
           }),
         });
         this.mapObject.addLayer(layerObj);
-        new LayerSwitcher(obj1.layerCollectionDivClass, layerObj, true, true, 'withOpacSlider');
+        let l2 = new LayerSwitcher(obj1.layerCollectionDivClass, layerObj, true, true, 'withOpacSlider');
+        if (obj1.group) {
+          this.hiwatObject.LayerListPredictionAccumulated.push(l2);
+          layerObj.on('change:visible', (a) => {
+            let currentLayerId = a.target.getProperties().id;
+            if (a.target.getProperties().visible == true) {
+              this.hiwatObject.LayerListPredictionAccumulated.forEach((l) => {
+                if (currentLayerId == l.getProperties().id) {
+                  l.setVisible(true);
+                } else {
+                  l.setVisible(false);
+                }
+              })
+            }
+          });
+        }
       }
       let threddsURL = aa.thredds_urls.hourly;
       let dateYYYYMMDD = threddsURL.split("hkhEnsemble_")[1].slice(0, 8);
-      let newFormat = dateYYYYMMDD.slice(0, 4) + "-" + dateYYYYMMDD.slice(4, 6) + "-" + dateYYYYMMDD.slice(6, 8) + " 13:00"
-      this.$store.commit('setHIWATDate', newFormat);
+      // let newFormat = dateYYYYMMDD.slice(0, 4) + "-" + dateYYYYMMDD.slice(4, 6) + "-" + dateYYYYMMDD.slice(6, 8);
+      var dateObject = new Date(dateYYYYMMDD.slice(0, 4), dateYYYYMMDD.slice(4, 6) - 1, dateYYYYMMDD.slice(6, 8));
+      this.hiwatObject.HIWATDate = dateObject
+      this.hiwatObject.ModelDayPartation = '_day1';
+
+
+      let CopyDate = new Date(this.hiwatObject.HIWATDate.getTime());
+      CopyDate.setDate(CopyDate.getDate() + 1);
+      const year = CopyDate.getFullYear(); // Get the year (yyyy)
+      const month = String(CopyDate.getMonth() + 1).padStart(2, '0'); // Get the month (mm), and pad with leading zero if necessary
+      const day = String(CopyDate.getDate()).padStart(2, '0'); // Get the day (dd), and pad with leading zero if necessary
+      const formattedDate = `${year}-${month}-${day}`; // Format the date as yyyy-mm-dd
+      this.hiwatObject.HIWATDateLevel = formattedDate;
+
 
       for (let obj2 of HIWAT_Latest_54_hour_data) {
         let NewSLD = GetPercentageSLD(obj2.layerName);
@@ -397,6 +426,7 @@ export default {
           alignTimeSlider: "left",
           baseLayer: false,
           displayInLayerSwitcher: false,
+          GroupLayersId: obj2.GroupLayersId,
           source: {
             url: threddsURL,
             params: {
@@ -406,13 +436,28 @@ export default {
             }
           }
         });
-        await mm.init().then((val) => {
-              mapObject.addThreddsLayer(val);
-              new LayerSwitcher(".layerCollection1", mm, true, true, 'withOpacSlider');
+        await mm.init().then(() => {
+              mapObject.addThreddsLayer(mm);
+              let l1 = new LayerSwitcher(".layerCollection1", mm, true, true, 'withOpacSlider');
+              this.LayerListHourlyPrediction.push(l1);
             },
             (error) => {
               console.error(error);
             });
+        mm.on('change:visible', (a) => {
+
+          let currentLayerId = a.target.getProperties().id;
+          if (a.target.getProperties().visible == true) {
+            this.LayerListHourlyPrediction.forEach((l) => {
+              if (currentLayerId == l.getProperties().id) {
+                l.setVisible(true);
+              } else {
+                l.setVisible(false);
+              }
+            })
+          }
+
+        });
       }
       console.log(aa.thredds_urls.hourly);
     },
@@ -483,13 +528,14 @@ export default {
 
               let dataJSON = JSON.parse(json);
               if (dataJSON.features.length) {
+                let ModelDayPartation =this_.hiwatObject.ModelDayPartation
                 let featureProp = dataJSON.features[0].properties;
                 this_.cardBox.showCardBox = true;
                 this_.cardBox.header = featureProp.GaPa_NaPa + " " + featureProp.Type_GN;
-                this_.cardBox.rainy = featureProp.hraccumulated_preciptation;
-                this_.cardBox.hail = featureProp.moderate_hail;
-                this_.cardBox.Lightning = featureProp.lightning;
-                this_.cardBox.Supercell = featureProp.moderate_supercell;
+                this_.cardBox.rainy = featureProp['hraccumulated_preciptation'+ModelDayPartation]
+                this_.cardBox.hail = featureProp['moderate_hail'+ModelDayPartation]
+                this_.cardBox.Lightning = featureProp['lightning'+ModelDayPartation]
+                this_.cardBox.Supercell = featureProp['moderate_supercell'+ModelDayPartation]
                 console.log(dataJSON);
                 this_.cardBox.animationClass.animate__fadeOutUp = false;
                 this_.cardBox.animationClass.animate__fadeInDown = true;
@@ -513,6 +559,11 @@ export default {
     }
   },
   created() {
+  },
+  computed: {
+    ...mapState([
+      'hiwatObject'
+    ])
   },
   mounted() {
     this.mapInitilization();
