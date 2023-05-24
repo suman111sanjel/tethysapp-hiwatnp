@@ -367,6 +367,14 @@ let HIWAT_Extreme_Layer_List_array = [
         layerCollectionDivClass: ".layerCollection",
         styles: 'HIWAT_Extreme:gapaNapa_suHail_day1',
         group: true
+    },    {
+        id: 'gapaNapa_wind',
+        visible: false,
+        title: 'Hourly Prob. Mx 10m Wind Spd > 40 (kt)',
+        zIndex: 100,
+        layerCollectionDivClass: ".layerCollection",
+        styles: 'HIWAT_Extreme:gapaNapa_suHail_day1',
+        group: true
     },
     {
         id: 'gapaNapa_transparent',
@@ -421,6 +429,12 @@ var HIWAT_Latest_54_hour_data_array = [
         visible: false,
         title: 'Prob. of Supercell Threat (%)',
         layerName: 'ensprob-uphlcy25-thresh100',
+    },
+    {
+        id: 'ensprob-spd10m-thresh40',
+        visible: false,
+        title: 'Hourly Prob. Mx 10m Wind Spd > 40 (kt)',
+        layerName: 'ensprob-spd10m-thresh40',
     }];
 
 let HIWAT54LayerId = [];
