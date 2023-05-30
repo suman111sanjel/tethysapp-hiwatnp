@@ -347,7 +347,6 @@ let HIWAT_Extreme_Layer_List_array = [
         layerCollectionDivClass: ".layerCollection",
         styles: 'HIWAT_Extreme:gapaNapa_lightning_day1',
         group: true
-
     },
     {
         id: 'gapaNapa_mHail',
@@ -357,7 +356,6 @@ let HIWAT_Extreme_Layer_List_array = [
         layerCollectionDivClass: ".layerCollection",
         styles: 'HIWAT_Extreme:gapaNapa_mHail_day1',
         group: true
-
     },
     {
         id: 'gapaNapa_suHail',
@@ -370,10 +368,10 @@ let HIWAT_Extreme_Layer_List_array = [
     },    {
         id: 'gapaNapa_wind',
         visible: false,
-        title: 'Hourly Prob. Mx 10m Wind Spd > 40 (kt)',
+        title: 'Hourly Prob. Max 10m Wind Spd > 40kt (%)',
         zIndex: 100,
         layerCollectionDivClass: ".layerCollection",
-        styles: 'HIWAT_Extreme:gapaNapa_suHail_day1',
+        styles: 'HIWAT_Extreme:gapaNapa_wind_day1',
         group: true
     },
     {
@@ -433,7 +431,7 @@ var HIWAT_Latest_54_hour_data_array = [
     {
         id: 'ensprob-spd10m-thresh40',
         visible: false,
-        title: 'Hourly Prob. Mx 10m Wind Spd > 40 (kt)',
+        title: 'Hourly Prob. Max 10m Wind Spd > 40kt (%)',
         layerName: 'ensprob-spd10m-thresh40',
     }];
 

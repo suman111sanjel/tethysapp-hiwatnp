@@ -7,9 +7,9 @@
 
 <script>
 
-import eventHub from "../utils/utils"
-
+import eventHub from "../utils/utils";
 import Highcharts from 'highcharts';
+
 // Alternatively, this is how to load Highstock. Highmaps is similar.
 // import Highcharts from 'highcharts/highstock';
 

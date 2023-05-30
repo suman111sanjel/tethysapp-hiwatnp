@@ -39,7 +39,8 @@ export default {
     changedModelDay() {
 
       let CopyDate = new Date(this.hiwatObject.HIWATDate.getTime());
-      if (this.hiwatObject.ModelDayPartation == 'Day 1') {
+      console.log(this.hiwatObject.ModelDayPartation);
+      if (this.hiwatObject.ModelDayPartation == '_day1') {
         CopyDate.setDate(CopyDate.getDate() + 1);
       } else {
         CopyDate.setDate(CopyDate.getDate() + 2);

@@ -53,6 +53,16 @@
             </div>
           </div>
 
+          <div class="infographics-item long-row">
+          <span>
+          <img class="infographicsIcon" :src="windSVG" alt="my-logo"/>
+            </span>
+            <div class="value-wrapper">
+              <div class="value-title">Hourly Prob. Maximum 10m Wind Spd > 40kt (%)</div>
+              <div class="value">{{ cardBox.wind }}</div>
+            </div>
+          </div>
+
         </div>
       </el-card>
     </div>
@@ -65,6 +75,7 @@ import rainySVG from '../assets/rainy.svg';
 import hailSVG from '../assets/hail.svg';
 import flashSVG from '../assets/flash.svg';
 import stormSVG from '../assets/favpng_storm-ico-icon.svg';
+import windSVG from '../assets/wind.svg';
 
 import "ol/ol.css";
 import Map from "ol/Map";
@@ -143,6 +154,7 @@ export default {
         hail: '',
         Lightning: '',
         Supercell: '',
+        wind: '',
         showCardBox: false,
         animationClass: {
           animate__backInDown: false,
@@ -155,7 +167,8 @@ export default {
       rainySVG,
       hailSVG,
       flashSVG,
-      stormSVG
+      stormSVG,
+      windSVG
     }
   },
   methods: {
@@ -427,6 +440,7 @@ export default {
           baseLayer: false,
           displayInLayerSwitcher: false,
           GroupLayersId: obj2.GroupLayersId,
+          defaultTimeZone: 'local',
           source: {
             url: threddsURL,
             params: {
@@ -528,14 +542,15 @@ export default {
 
               let dataJSON = JSON.parse(json);
               if (dataJSON.features.length) {
-                let ModelDayPartation =this_.hiwatObject.ModelDayPartation
+                let ModelDayPartation = this_.hiwatObject.ModelDayPartation
                 let featureProp = dataJSON.features[0].properties;
                 this_.cardBox.showCardBox = true;
                 this_.cardBox.header = featureProp.GaPa_NaPa + " " + featureProp.Type_GN;
-                this_.cardBox.rainy = featureProp['hraccumulated_preciptation'+ModelDayPartation]
-                this_.cardBox.hail = featureProp['moderate_hail'+ModelDayPartation]
-                this_.cardBox.Lightning = featureProp['lightning'+ModelDayPartation]
-                this_.cardBox.Supercell = featureProp['moderate_supercell'+ModelDayPartation]
+                this_.cardBox.rainy = featureProp['hraccumulated_preciptation' + ModelDayPartation]
+                this_.cardBox.hail = featureProp['moderate_hail' + ModelDayPartation]
+                this_.cardBox.Lightning = featureProp['lightning' + ModelDayPartation]
+                this_.cardBox.Supercell = featureProp['moderate_supercell' + ModelDayPartation]
+                this_.cardBox.wind = featureProp['winds_40kts' + ModelDayPartation]
                 console.log(dataJSON);
                 this_.cardBox.animationClass.animate__fadeOutUp = false;
                 this_.cardBox.animationClass.animate__fadeInDown = true;
